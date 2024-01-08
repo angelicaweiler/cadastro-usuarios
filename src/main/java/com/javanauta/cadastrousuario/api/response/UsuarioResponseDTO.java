@@ -1,23 +1,14 @@
 package com.javanauta.cadastrousuario.api.response;
 
-import lombok.*;
+public record UsuarioResponseDTO(Long id,
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class UsuarioResponseDTO {
+                                 String nome,
 
-    private Long id;
+                                 String email,
 
-    private String nome;
+                                 String documento,
 
-    private String email;
-
-    private String documento;
-
-    private EnderecoResponseDTO endereco;
+                                 EnderecoResponseDTO endereco) {
 
 
 }

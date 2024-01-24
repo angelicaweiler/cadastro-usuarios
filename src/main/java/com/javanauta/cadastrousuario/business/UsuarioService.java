@@ -9,9 +9,9 @@ import com.javanauta.cadastrousuario.infrastructure.entities.UsuarioEntity;
 import com.javanauta.cadastrousuario.infrastructure.exceptions.BusinessException;
 import com.javanauta.cadastrousuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.util.Assert.notNull;
@@ -40,21 +40,31 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioResponseDTO atualizaCadastro(UsuarioRequestDTO usuarioRequestDTO){
+    public UsuarioResponseDTO atualizaCadastro(UsuarioRequestDTO usuarioRequestDTO) {
         try {
             notNull(usuarioRequestDTO, "Os dados do usuário são obrigatórios");
             UsuarioEntity usuario = usuarioRepository.findByEmail(usuarioRequestDTO.getEmail());
-            UsuarioEntity entity = usuarioUpdateMapper.updateUsuarioFromDTO(usuarioRequestDTO, usuario);
-            return usuarioMapper.paraUsuarioResponseDTO(salvaUsuario(entity));
+            usuarioUpdateMapper.updateUsuarioFromDTO(usuarioRequestDTO, usuario);
+            return usuarioMapper.paraUsuarioResponseDTO(salvaUsuario(usuario));
         } catch (Exception e) {
             throw new BusinessException("Erro ao gravar dados de usuário", e);
         }
     }
 
     public UsuarioResponseDTO buscaDadosUsuario(String email) {
-            UsuarioEntity entity = usuarioRepository.findByEmail(email);
+        UsuarioEntity entity = usuarioRepository.selectFromEmail(email);
 
-            return entity != null ? usuarioMapper.paraUsuarioResponseDTO(entity) : null;
+        return entity != null ? usuarioMapper.paraUsuarioResponseDTO(entity) : null;
+    }
+
+    public List<UsuarioResponseDTO> buscaPorIniciais(String iniciais){
+        List<UsuarioEntity> entity = usuarioRepository.findByNomeOrEmailStartingWith(iniciais);
+
+        return entity.isEmpty() ? Collections.emptyList() : usuarioMapper.paraListaUsuarioResponseDTO(entity);
+    }
+
+    public void fazUpdateDeEmail(String email, String documento) {
+        usuarioRepository.updateEmail(documento, email);
     }
 
     public void deletaDadosUsuario(String email) {

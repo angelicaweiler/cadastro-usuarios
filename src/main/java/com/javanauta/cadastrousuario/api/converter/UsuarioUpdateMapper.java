@@ -6,10 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
-@Mapper(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+import org.springframework.stereotype.Component;
+
+@Component
+@Mapper(componentModel = "spring")
 public interface UsuarioUpdateMapper {
 
     UsuarioUpdateMapper INSTANCE = Mappers.getMapper(UsuarioUpdateMapper.class);
 
-    UsuarioEntity updateUsuarioFromDTO(UsuarioRequestDTO usuarioDTO, @MappingTarget UsuarioEntity usuarioEntity);
+    void updateUsuarioFromDTO(UsuarioRequestDTO usuarioDTO, @MappingTarget UsuarioEntity usuarioEntity);
 }

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -30,9 +32,21 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscaDadosUsuario(email));
     }
 
+    @GetMapping("/iniciais")
+    public ResponseEntity<List<UsuarioResponseDTO>> buscaUsuarioPorIniciais(@RequestParam ("iniciais") String iniciais) {
+        return ResponseEntity.ok(usuarioService.buscaPorIniciais(iniciais));
+    }
+
     @DeleteMapping
     public ResponseEntity<Void> deletaDadosUsuario(@RequestParam ("email") String email) {
         usuarioService.deletaDadosUsuario(email);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PatchMapping
+    public ResponseEntity<Void> updateDeEmail(@RequestParam ("email") String email,
+                                              @RequestParam ("documento") String documento) {
+        usuarioService.fazUpdateDeEmail(email, documento);
         return ResponseEntity.accepted().build();
     }
 

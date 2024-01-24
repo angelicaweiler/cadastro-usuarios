@@ -32,9 +32,6 @@ public class UsuarioEntity {
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
-    @Column(name = "data_atualizacao")
-    private LocalDateTime dataAtualizacao;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private EnderecoEntity endereco;
@@ -50,12 +47,11 @@ public class UsuarioEntity {
                 Objects.equals(email, that.email) &&
                 Objects.equals(documento, that.documento) &&
                 Objects.equals(dataCadastro, that.dataCadastro) &&
-                Objects.equals(dataAtualizacao, that.dataAtualizacao) &&
                 Objects.equals(endereco, that.endereco);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, email, documento, dataCadastro, dataAtualizacao, endereco);
+        return Objects.hash(id, nome, email, documento, dataCadastro, endereco);
     }
 }

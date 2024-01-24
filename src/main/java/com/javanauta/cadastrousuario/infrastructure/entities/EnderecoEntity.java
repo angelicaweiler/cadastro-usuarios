@@ -35,7 +35,7 @@ public class EnderecoEntity {
     private String cidade;
 
     @Column(name = "cep")
-    private String cep;pOWal6OjrNdtUy8z angelicaweilerw
+    private String cep;
 
     @Override
     public boolean equals(Object o) {
